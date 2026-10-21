@@ -4,8 +4,8 @@
  */
 
 import React from 'react';
-import { Clock, Moon, Sun, FastForward, RotateCcw, Users, Shield, ShieldAlert, Cpu } from 'lucide-react';
-import { formatGameTime, formatRealEquivalentDuration } from '../engine/clock';
+import { Clock, Moon, Sun, RotateCcw, Users, Shield, ShieldAlert, Cpu } from 'lucide-react';
+import { formatGameTime } from '../engine/clock';
 import { WorldClockState, Character } from '../engine/types';
 
 interface WorldClockHeaderProps {
@@ -14,7 +14,6 @@ interface WorldClockHeaderProps {
   characters: Record<string, Character>;
   activeCharacterId: string;
   onSelectCharacter: (id: string) => void;
-  onFastForward: (gameMinutes: number) => void;
   onReset: () => void;
   onOpenTechModal: () => void;
 }
@@ -25,7 +24,6 @@ export const WorldClockHeader: React.FC<WorldClockHeaderProps> = ({
   characters,
   activeCharacterId,
   onSelectCharacter,
-  onFastForward,
   onReset,
   onOpenTechModal,
 }) => {
@@ -64,39 +62,14 @@ export const WorldClockHeader: React.FC<WorldClockHeaderProps> = ({
                 </span>
               )}
             </div>
-            <span className="text-[10px] text-stone-400 bg-stone-950 px-1.5 py-0.5 rounded border border-stone-800 hidden sm:inline" title="Vitesse du temps">
-              1m = {clock.timeDilation}m
+            <span className="text-[10px] text-stone-400 bg-stone-950 px-2 py-0.5 rounded border border-stone-800 hidden sm:inline" title="Vitesse du temps : 5 minutes de jeu correspondent à 1 minute réelle">
+              5 min jeu = 1 min réelle
             </span>
           </div>
         </div>
 
-        {/* Contrôles de simulation temporelle (Accélération & Test de persistance) */}
+        {/* Contrôles joueur et vue système */}
         <div className="flex items-center gap-2 text-xs">
-          <div className="hidden lg:flex items-center gap-1 bg-stone-900 border border-stone-800 px-2 py-1 rounded">
-            <span className="text-stone-400 font-mono text-[11px]">Saut temporel test :</span>
-            <button
-              onClick={() => onFastForward(15)}
-              className="px-2 py-0.5 hover:bg-stone-800 text-stone-300 hover:text-amber-400 rounded transition font-mono"
-              title="Avancer de 15 minutes de jeu (3 minutes réelles)"
-            >
-              +15m
-            </button>
-            <button
-              onClick={() => onFastForward(60)}
-              className="px-2 py-0.5 hover:bg-stone-800 text-stone-300 hover:text-amber-400 rounded transition font-mono"
-              title="Avancer de 1 heure de jeu (12 minutes réelles)"
-            >
-              +1h
-            </button>
-            <button
-              onClick={() => onFastForward(300)}
-              className="px-2 py-0.5 hover:bg-stone-800 text-amber-400 rounded transition font-mono"
-              title="Avancer de 5 heures de jeu (1 heure réelle)"
-            >
-              +5h
-            </button>
-          </div>
-
           {/* Sélecteur de personnage (Multijoueur Asynchrone) */}
           <div className="flex items-center gap-1.5 bg-stone-900 border border-stone-800 px-2.5 py-1 rounded">
             <Users className="w-3.5 h-3.5 text-stone-400" />

@@ -310,27 +310,6 @@ export default function App() {
     });
   }, [activeChar, currentLoc, currentGameMinutes]);
 
-  // Saut temporel pour tester la persistance et les événements
-  const handleFastForward = useCallback((gameMinutes: number) => {
-    setWorldState((prev) => {
-      // Décaler l'époque réelle vers le passé pour faire avancer le jeu
-      const realMsToShift = (gameMinutes / prev.clock.timeDilation) * 60000;
-      const updatedClock = {
-        ...prev.clock,
-        realEpochStartUtc: prev.clock.realEpochStartUtc - realMsToShift,
-      };
-
-      const newGameMinutes = calculateCurrentGameMinutes(updatedClock, Date.now());
-      const { updatedState } = resolveScheduledEvents(
-        { ...prev, clock: updatedClock },
-        newGameMinutes
-      );
-
-      saveWorldState(updatedState);
-      return updatedState;
-    });
-  }, []);
-
   // Réinitialiser le monde
   const handleResetWorld = useCallback(() => {
     if (confirm('Voulez-vous réinitialiser le monde persistant à son état de départ (Genesis) ?')) {
@@ -354,7 +333,6 @@ export default function App() {
         characters={worldState.characters}
         activeCharacterId={activeCharId}
         onSelectCharacter={handleSelectCharacter}
-        onFastForward={handleFastForward}
         onReset={handleResetWorld}
         onOpenTechModal={() => setIsTechModalOpen(true)}
       />
