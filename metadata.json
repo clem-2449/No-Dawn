@@ -1,0 +1,7 @@
+{
+  "name": "Survie Zombie RPG - Monde Persistant",
+  "description": "Jeu de rôle post-apocalyptique persistant avec moteur déterministe, horloge continue et narration IA.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
